@@ -51,7 +51,7 @@ function App() {
   }[lang];
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden">
+    <div className="fixed inset-0 w-full overflow-hidden" style={{ height: '100dvh' }}>
       {/* Blurred Background Image */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
@@ -66,13 +66,24 @@ function App() {
       <div className={`absolute inset-0 z-0 transition-colors duration-700 ${isDarkMode ? 'bg-black/60' : 'bg-black/20'}`} />
 
       {/* Main Content Wrapper */}
-      <section className="relative z-10 w-full h-full flex justify-center box-border overflow-hidden">
+      <section className="relative z-10 w-full flex justify-center box-border overflow-hidden" style={{ height: '100dvh' }}>
         {/* Wrapper w-fit ensures its bounds snap tightly to the contained image, making "top-right" place it correctly on the image corner */}
-        <div className="relative h-full flex flex-col items-center w-fit">
+        <div
+          className={`relative flex flex-col items-center transition-all duration-700 ${
+            page === 0
+              ? 'w-fit rounded-2xl overflow-hidden shadow-2xl'
+              : 'w-full'
+          }`}
+          style={{ height: '100dvh' }}
+        >
           <img 
             src={page === 0 ? centerImage1 : bgImage} 
             alt="Centered image" 
-            className={`h-full w-auto object-contain shadow-2xl rounded-2xl transition-all duration-700 ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
+            className={`transition-all duration-700 ${
+              page === 0
+                ? 'h-full w-auto object-contain'
+                : 'h-full w-full object-cover'
+            } ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
           />
 
           {/* Language Switcher - Pinned to the top right of the centered image */}
@@ -135,21 +146,22 @@ function App() {
             <>
               {/* Text Overlay precisely placed within the bounds of the red board */}
               <div 
-                className="absolute flex flex-col justify-center items-center text-center px-2"
+                className="absolute flex flex-col justify-center items-center text-center"
                 style={{
-                  top: '25%',       // Starts exactly below the bride/groom cartoon
-                  bottom: '37%',    // Ends at the bottom border of the red board
-                  left: '5%', 
-                  right: '5%',
+                  top: '25%',
+                  bottom: '37%',
+                  left: '4%',
+                  right: '4%',
+                  padding: '0 clamp(4px, 2vw, 12px)',
                 }}
               >
-                <p className="text-[#3b3b3b] font-bold text-[20px]" style={{ marginBottom: '0.5vh', fontFamily: "'Talk Comic', sans-serif" }}>
+                <p className="text-[#3b3b3b] font-bold" style={{ marginBottom: '0.5vh', fontFamily: "'Talk Comic', sans-serif", fontSize: 'clamp(0.75rem, 3vh, 1.25rem)' }}>
                   {t.weddingOf}
                 </p>
                 <h1 
                   className="font-black text-[#e43232] tracking-wider whitespace-nowrap"
                   style={{
-                    fontSize: '4.8vh',
+                    fontSize: 'clamp(1.1rem, 4.8vh, 2.4rem)',
                     WebkitTextStroke: '0.15vh #4a1515',
                     textShadow: '0.2vh 0.2vh 0px #4a1515',
                     marginBottom: '1vh',
@@ -158,13 +170,13 @@ function App() {
                 >
                   Ramizah & Luay
                 </h1>
-                <p className="text-[#3b3b3b]" style={{ fontSize: '2vh' }}>
+                <p className="text-[#3b3b3b]" style={{ fontSize: 'clamp(0.65rem, 2vh, 1rem)' }}>
                   {t.to}
                 </p>
-                <p className="text-[#3b3b3b] font-bold" style={{ fontSize: '2vh' }}>
+                <p className="text-[#3b3b3b] font-bold" style={{ fontSize: 'clamp(0.65rem, 2vh, 1rem)' }}>
                   {t.guest}
                 </p>
-                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: '1.5vh', marginBottom: '2vh' }}>
+                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: 'clamp(0.55rem, 1.5vh, 0.8rem)', marginBottom: '2vh' }}>
                   {t.apology}
                 </p>
               </div>

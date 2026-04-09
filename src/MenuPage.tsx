@@ -199,14 +199,14 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* Qr Code: Upper Left */}
-      <div className="absolute top-[10%] left-[15%] w-[18%]">
+      <div className="absolute top-[10%] left-[15%] w-[18%] min-w-[36px]">
          <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
             <img src={gQrCode} alt="Qr Code" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '0ms' }} />
          </button>
       </div>
 
       {/* Date & Venue: Upper Right */}
-      <div className="absolute top-[16%] right-[20%] w-[18%]">
+      <div className="absolute top-[16%] right-[20%] w-[18%] min-w-[36px]">
          <button 
            onClick={() => setShowDateVenue(true)}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center relative"
@@ -216,7 +216,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* Dress Code: Mid Left */}
-      <div className="absolute top-[23%] left-[22%] w-[18%]">
+      <div className="absolute top-[23%] left-[22%] w-[18%] min-w-[36px]">
          <button 
             onClick={() => setShowDresscode(true)}
             className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center relative"
@@ -226,7 +226,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* Love Story: Mid Left Edge */}
-      <div className="absolute top-[40%] left-[6%] w-[20%]">
+      <div className="absolute top-[40%] left-[6%] w-[20%] min-w-[40px]">
          <button 
            onClick={() => setShowLoveStory(true)}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
@@ -236,7 +236,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* About Us: Center */}
-      <div className="absolute top-[36%] left-[32%] w-[33%]">
+      <div className="absolute top-[36%] left-[32%] w-[33%] min-w-[60px]">
          <button 
            onClick={() => setShowAboutUs(true)}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
@@ -246,7 +246,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* RSVP: Mid Right */}
-      <div className="absolute top-[48%] right-[8%] w-[30%]">
+      <div className="absolute top-[48%] right-[8%] w-[30%] min-w-[56px]">
          <button 
             onClick={() => setShowRsvp(true)}
             className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
@@ -256,7 +256,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       </div>
 
       {/* Gift: Bottom Right */}
-      <div className="absolute bottom-[20%] right-[12%] w-[26%]">
+      <div className="absolute bottom-[20%] right-[12%] w-[26%] min-w-[48px]">
          <button 
            onClick={() => { setShowGift(true); setShowGiftDetails(false); }}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
@@ -267,17 +267,17 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
 
       {/* Dresscode Popup */}
       {showDresscode && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           {/* Box Container */}
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl overflow-hidden flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl overflow-hidden flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 Dresscode
               </h2>
               <button 
@@ -285,15 +285,15 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
                 className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center"
                 aria-label="Close"
               >
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             
             {/* Body */}
-            <div className="px-6 py-6 pb-8 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1">
-              <img src={gDresscode} alt="Dress Code Illustration" className="w-[55%] mb-5 drop-shadow-md" />
+            <div className="px-4 py-4 pb-6 sm:px-6 sm:py-6 sm:pb-8 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1">
+              <img src={gDresscode} alt="Dress Code Illustration" className="w-[50%] mb-4 drop-shadow-md" />
               <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
                 {t.dresscodeDesc1}<strong className="font-extrabold text-black">{t.dresscodeBold}</strong>{t.dresscodeDesc2}
               </p>
@@ -304,17 +304,17 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
 
       {/* RSVP Popup */}
       {showRsvp && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           {/* Box Container */}
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 {t.rsvpTitle}
               </h2>
               <button 
@@ -329,14 +329,14 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             </div>
             
             {/* Body */}
-            <div className="px-5 py-5 pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto">
+            <div className="px-3 py-3 pb-5 sm:px-5 sm:py-5 sm:pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto">
               <img src={gRsvp} alt="RSVP Illustration" className="w-[50%] mb-3 drop-shadow-md" />
               <p className="text-xs sm:text-sm text-gray-800 mb-5 font-medium">
                 {t.rsvpDesc}
               </p>
 
               {/* Form Card */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-4 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-4 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
                  <input 
                    type="text" 
                    placeholder={t.rsvpNamePlaceholder} 
@@ -379,16 +379,16 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       )}
       {/* Date & Venue Popup */}
       {showDateVenue && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 {t.dateVenueTitle}
               </h2>
               <button 
@@ -403,28 +403,28 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             </div>
             
             {/* Body */}
-            <div className="px-5 py-5 pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
+            <div className="px-3 py-3 pb-5 sm:px-5 sm:py-5 sm:pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
               
               {/* Save The Date Card */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
-                <h3 className="text-[#b91c1c] font-black text-lg mb-4" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.saveTheDate}</h3>
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
+                <h3 className="text-[#b91c1c] font-black text-base sm:text-lg mb-3" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.saveTheDate}</h3>
                 
-                <div className="flex justify-center gap-2 mb-5">
+                <div className="flex justify-center gap-1 sm:gap-2 mb-4">
                   <div className="flex flex-col items-center">
-                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.days).padStart(2, '0')}</div>
-                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.days}</span>
+                    <div className="bg-[#b91c1c] text-white text-sm sm:text-lg font-bold rounded-lg w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center shadow-inner">{String(timeLeft.days).padStart(2, '0')}</div>
+                    <span className="text-[9px] sm:text-xs text-gray-600 mt-1 font-bold">{t.days}</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.hours).padStart(2, '0')}</div>
-                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.hours}</span>
+                    <div className="bg-[#b91c1c] text-white text-sm sm:text-lg font-bold rounded-lg w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center shadow-inner">{String(timeLeft.hours).padStart(2, '0')}</div>
+                    <span className="text-[9px] sm:text-xs text-gray-600 mt-1 font-bold">{t.hours}</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.minutes).padStart(2, '0')}</div>
-                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.minutes}</span>
+                    <div className="bg-[#b91c1c] text-white text-sm sm:text-lg font-bold rounded-lg w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center shadow-inner">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                    <span className="text-[9px] sm:text-xs text-gray-600 mt-1 font-bold">{t.minutes}</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.seconds).padStart(2, '0')}</div>
-                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.seconds}</span>
+                    <div className="bg-[#b91c1c] text-white text-sm sm:text-lg font-bold rounded-lg w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center shadow-inner">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                    <span className="text-[9px] sm:text-xs text-gray-600 mt-1 font-bold">{t.seconds}</span>
                   </div>
                 </div>
 
@@ -435,7 +435,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
               </div>
 
               {/* Akad Nikah & Resepsi Card */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
                 <h3 className="text-[#b91c1c] font-black text-lg mb-2" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.akadNikah}</h3>
                 <p className="text-sm font-medium text-gray-800">{t.dateAkad}</p>
                 <div className="flex items-center justify-center gap-1 text-sm font-medium text-gray-800 mb-2 mt-1">
@@ -470,7 +470,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
               </div>
 
               {/* Live Streaming Card */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-2">
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-2">
                 <h3 className="text-[#b91c1c] font-black text-lg mb-3" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.liveStreaming}</h3>
                 <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed mb-5">
                   {t.liveStreamingDesc}
@@ -492,16 +492,16 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
       )}
       {/* About Us Popup */}
       {showAboutUs && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 {t.aboutUsTitle}
               </h2>
               <button 
@@ -514,10 +514,10 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             </div>
             
             {/* Body */}
-            <div className="px-5 py-5 pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
+            <div className="px-3 py-3 pb-5 sm:px-5 sm:py-5 sm:pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
               
               {/* Card 1: Quran Quote */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-2 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6 flex flex-col items-center">
+              <div className="w-full border-2 border-red-200 rounded-xl p-2 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5 flex flex-col items-center">
                 <img src={gAboutUs2} alt="About Us" className="w-[100%] mb-4 opacity-90 drop-shadow-md rounded-xl" />
                 <p className="text-[11px] sm:text-[12px] text-gray-700 leading-relaxed max-w-[95%] mb-4 italic">
                   {t.quranQuote}
@@ -528,7 +528,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
               </div>
 
               {/* Card 2: Prayer */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-5 px-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6 flex flex-col items-center">
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-5 sm:px-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5 flex flex-col items-center">
                 <div className="flex items-center justify-center gap-2 mb-4 w-full">
                   <div className="h-px bg-red-200 flex-1"></div>
                   <svg className="w-4 h-4 text-[#b91c1c]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
@@ -543,7 +543,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
               </div>
 
               {/* Card 3: Bride */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-3 pb-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 pb-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
                 <div className="relative w-full aspect-[4/5] bg-white border-2 border-gray-100 rounded-lg mb-6 shadow-inner">
                   <img src={gPutri} alt="Ramizah" className="w-full h-full object-cover rounded-md" />
                   <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#b91c1c] text-white font-black text-sm px-6 py-1 rounded-full shadow-[0_3px_0_0_#7f1d1d] tracking-widest outline outline-4 outline-white" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
@@ -599,16 +599,16 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
 
       {/* Love Story Popup */}
       {showLoveStory && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 {t.loveStoryTitle}
               </h2>
               <button 
@@ -621,7 +621,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             </div>
             
             {/* Body */}
-            <div className="px-6 py-10 pb-12 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
+            <div className="px-4 py-6 pb-8 sm:px-6 sm:py-10 sm:pb-12 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
                <h3 className="text-[22px] sm:text-2xl text-[#b91c1c] mb-3 leading-tight font-medium" style={{ fontFamily: "Georgia, serif" }}>
                  {t.lsHeading1}<br />{t.lsHeading2}
                </h3>
@@ -645,16 +645,16 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
 
       {/* Wedding Gift Popup */}
       {showGift && (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
           <div 
-             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
              style={{ 
                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
              }}
           >
             {/* Header */}
-            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
-              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
                 {t.giftTitle}
               </h2>
               <button 
@@ -667,7 +667,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             </div>
             
             {/* Body */}
-            <div className="px-5 py-6 pb-8 flex flex-col items-center text-center bg-white/95 rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
+            <div className="px-3 py-4 pb-6 sm:px-5 sm:py-6 sm:pb-8 flex flex-col items-center text-center bg-white/95 rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
                
                <img src={gGift} alt="Gift Box" className="w-[50%] mb-4 drop-shadow-md" />
                <p className="text-xs sm:text-sm text-gray-800 mb-2 font-medium leading-relaxed px-2">
