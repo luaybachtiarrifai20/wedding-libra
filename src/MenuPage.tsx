@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { db } from "./firebase";
+import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "firebase/firestore";
+
 import gDateVenue from "./assets/asset_interaktif_10_date_venue.png";
 import gDresscode from "./assets/asset_interaktif_10_dresscode_hijab.png";
 import gAboutUs from "./assets/asset_interaktif_10_about_us_hijab.png";
@@ -15,9 +18,12 @@ type MenuPageProps = {
   onBack: () => void;
   lang: 'ID' | 'EN';
   isDarkMode: boolean;
+  guestId: string | null;
+  guestName: string | null;
 };
 
-export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
+export default function MenuPage({ onBack, lang, isDarkMode, guestId, guestName }: MenuPageProps) {
+  const [showQrCode, setShowQrCode] = useState(false);
   const [showDresscode, setShowDresscode] = useState(false);
   const [showRsvp, setShowRsvp] = useState(false);
   const [showDateVenue, setShowDateVenue] = useState(false);
@@ -25,6 +31,44 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
   const [showLoveStory, setShowLoveStory] = useState(false);
   const [showGift, setShowGift] = useState(false);
   const [showGiftDetails, setShowGiftDetails] = useState(false);
+
+  // RSVP form state
+  const [rsvpName, setRsvpName] = useState(guestName ?? '');
+  const [rsvpWish, setRsvpWish] = useState('');
+  const [rsvpAttendance, setRsvpAttendance] = useState<'present' | 'absent' | null>(null);
+  const [rsvpSubmitting, setRsvpSubmitting] = useState(false);
+  const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
+
+  const handleRsvpSubmit = async () => {
+    if (!guestId || rsvpSubmitting || rsvpSubmitted) return;
+    if (!rsvpName.trim()) return;
+    setRsvpSubmitting(true);
+    try {
+      await addDoc(collection(db, 'responses'), {
+        guestId,
+        name: rsvpName.trim(),
+        wish: rsvpWish.trim(),
+        attendance: rsvpAttendance ?? 'none',
+        timestamp: serverTimestamp(),
+      });
+      setRsvpSubmitted(true);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setRsvpSubmitting(false);
+    }
+  };
+
+  const [responses, setResponses] = useState<any[]>([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'responses'), orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const respData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setResponses(respData);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -200,7 +244,7 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
 
       {/* Qr Code: Upper Left */}
       <div className="absolute top-[10%] left-[15%] w-[18%] min-w-[36px]">
-         <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
+         <button onClick={() => setShowQrCode(true)} className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
             <img src={gQrCode} alt="Qr Code" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '0ms' }} />
          </button>
       </div>
@@ -264,6 +308,63 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
             <img src={gGift} alt="Wedding Gift" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '250ms' }} />
          </button>
       </div>
+
+      {/* QR Code Popup */}
+      {showQrCode && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-3 backdrop-blur-[2px] transition-opacity rounded-2xl">
+          <div 
+             className="relative w-[90vw] max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             style={{ 
+               boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
+             }}
+          >
+            {/* Header */}
+            <div className="bg-[#b91c1c] py-2.5 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-lg sm:text-xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                QR Code
+              </h2>
+              <button 
+                onClick={() => setShowQrCode(false)}
+                className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-3 py-5 sm:px-5 sm:py-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto">
+              {guestId ? (
+                <>
+                  <p className="text-sm text-gray-800 mb-5 font-bold">
+                    Tunjukkan QR Code ini kepada penerima tamu.
+                  </p>
+                  <div className="w-full border-2 border-red-200 rounded-xl p-4 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-3 flex items-center justify-center">
+                    <div className="bg-white p-2">
+                       <img 
+                         src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(guestId)}`} 
+                         alt={`QR Code ${guestName}`} 
+                         width={150} 
+                         height={150} 
+                       />
+                    </div>
+                  </div>
+                  {guestName && <h3 className="font-extrabold text-[#b91c1c] text-lg mt-2 text-center break-words max-w-full px-2 leading-tight">{guestName}</h3>}
+                </>
+              ) : (
+                <div className="w-full p-4 rounded-xl text-center" style={{ backgroundColor: '#fffdfd', border: '1px solid #fce8e8' }}>
+                  <h4 className="text-[#964747] font-bold text-sm mb-1">{t.rsvpSpecialTitle}</h4>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                    {t.rsvpSpecialDesc}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Dresscode Popup */}
       {showDresscode && (
@@ -336,43 +437,103 @@ export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
               </p>
 
               {/* Form Card */}
-              <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-4 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
-                 <input 
-                   type="text" 
-                   placeholder={t.rsvpNamePlaceholder} 
-                   className="w-full border-2 border-red-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-[#b91c1c] mb-3 text-gray-700"
-                 />
-                 <textarea 
-                   placeholder={t.rsvpMessagePlaceholder} 
-                   rows={3}
-                   className="w-full border-2 border-red-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-[#b91c1c] mb-4 resize-none text-gray-700"
-                 />
+              {guestId ? (
+                !rsvpSubmitted ? (
+                  <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-4 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
+                     <input 
+                       type="text" 
+                       placeholder={t.rsvpNamePlaceholder} 
+                       value={rsvpName}
+                       onChange={(e) => setRsvpName(e.target.value)}
+                       className="w-full border-2 border-red-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-[#b91c1c] mb-3 text-gray-700"
+                     />
+                     <textarea 
+                       placeholder={t.rsvpMessagePlaceholder} 
+                       rows={3}
+                       value={rsvpWish}
+                       onChange={(e) => setRsvpWish(e.target.value)}
+                       className="w-full border-2 border-red-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-[#b91c1c] mb-4 resize-none text-gray-700"
+                     />
+    
+                     <div className="flex items-center gap-3 mb-4">
+                       <div className="h-px bg-red-200 flex-1"></div>
+                       <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase tracking-wider">{t.rsvpConfirm}</span>
+                       <div className="h-px bg-red-200 flex-1"></div>
+                     </div>
+    
+                     <div className="flex gap-2 sm:gap-1 mb-4">
+                       <button 
+                         onClick={() => setRsvpAttendance('present')}
+                         className={`flex-1 border-2 rounded-full py-2 text-xs font-bold flex items-center justify-center gap-1 transition-colors ${rsvpAttendance === 'present' ? 'border-[#b91c1c] bg-red-50 text-[#b91c1c]' : 'border-red-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700'}`}
+                       >
+                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                         {t.rsvpAttend}
+                       </button>
+                       <button 
+                         onClick={() => setRsvpAttendance('absent')}
+                         className={`flex-1 border-2 rounded-full py-2 text-xs font-bold flex items-center justify-center gap-1 transition-colors ${rsvpAttendance === 'absent' ? 'border-[#b91c1c] bg-red-50 text-[#b91c1c]' : 'border-red-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700'}`}
+                       >
+                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+                         {t.rsvpDecline}
+                       </button>
+                     </div>
+    
+                     <button 
+                       onClick={handleRsvpSubmit}
+                       disabled={rsvpSubmitting || !rsvpName.trim() || !rsvpAttendance}
+                       className="w-full bg-[#b91c1c] text-white rounded-xl py-2 px-6 text-xs sm:text-sm font-bold shadow-[0_3px_0_0_#7f1d1d] hover:translate-y-[1px] hover:shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[3px] active:shadow-none hover:bg-red-800 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                     >
+                       {rsvpSubmitting ? 'Mengirim...' : 'Kirim'}
+                     </button>
+                  </div>
+                ) : (
+                  <div className="w-full p-4 rounded-xl text-center mb-5" style={{ backgroundColor: '#fffdfd', border: '1px solid #fce8e8' }}>
+                    <p className="text-sm text-gray-700 font-medium">Terima kasih atas ucapan dan konfirmasi kehadiran Anda.</p>
+                  </div>
+                )
+              ) : (
+                /* Special Note Card */
+                <div className="w-full p-4 rounded-xl text-center mb-5" style={{ backgroundColor: '#fffdfd', border: '1px solid #fce8e8' }}>
+                  <h4 className="text-[#964747] font-bold text-sm mb-1">{t.rsvpSpecialTitle}</h4>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                    {t.rsvpSpecialDesc}
+                  </p>
+                </div>
+              )}
 
-                 <div className="flex items-center gap-3 mb-4">
-                   <div className="h-px bg-red-200 flex-1"></div>
-                   <span className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase tracking-wider">{t.rsvpConfirm}</span>
-                   <div className="h-px bg-red-200 flex-1"></div>
-                 </div>
-
-                 <div className="flex gap-2 sm:gap-1">
-                   <button className="flex-1 border-2 border-red-200 text-gray-500 rounded-full py-2 text-xs font-bold flex items-center justify-center gap-1 hover:bg-gray-50 hover:text-gray-700 transition-colors">
-                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                     {t.rsvpAttend}
-                   </button>
-                   <button className="flex-1 border-2 border-red-200 text-gray-500 rounded-full py-2 text-xs font-bold flex items-center justify-center gap-1 hover:bg-gray-50 hover:text-gray-700 transition-colors">
-                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                     {t.rsvpDecline}
-                   </button>
-                 </div>
-              </div>
-
-              {/* Special Note Card */}
-              <div className="w-full p-4 rounded-xl text-center" style={{ backgroundColor: '#fffdfd', border: '1px solid #fce8e8' }}>
-                <h4 className="text-[#964747] font-bold text-sm mb-1">{t.rsvpSpecialTitle}</h4>
-                <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                  {t.rsvpSpecialDesc}
-                </p>
-              </div>
+              {/* List of wishes */}
+              {responses.length > 0 && guestId && (
+                <div className="w-full flex flex-col gap-3 text-left">
+                  <div className="flex items-center gap-3">
+                     <div className="h-px bg-red-200 flex-1"></div>
+                     <span className="text-[10px] sm:text-xs text-[#b91c1c] font-bold uppercase tracking-wider">Ucapan ({responses.length})</span>
+                     <div className="h-px bg-red-200 flex-1"></div>
+                  </div>
+                  <div className="max-h-[200px] overflow-y-auto custom-scrollbar flex flex-col gap-3 px-1">
+                    {responses.map((resp) => (
+                      <div key={resp.id} className="bg-gray-50/80 border border-gray-100 rounded-lg p-3 shadow-sm relative">
+                        <div className="flex justify-between items-start mb-1 gap-2">
+                           <h5 className="font-bold text-xs text-gray-800 break-words">{resp.name}</h5>
+                           {resp.attendance === 'present' && (
+                             <span className="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full whitespace-nowrap font-bold shrink-0 items-center justify-center flex"><svg className="w-2.5 h-2.5 mr-0.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg> {t.rsvpAttend}</span>
+                           )}
+                           {resp.attendance === 'absent' && (
+                             <span className="text-[9px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full whitespace-nowrap font-bold shrink-0 items-center justify-center flex"><svg className="w-2.5 h-2.5 mr-0.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg> {t.rsvpDecline}</span>
+                           )}
+                        </div>
+                        {resp.wish && (
+                           <p className="text-xs text-gray-600 leading-relaxed break-words">{resp.wish}</p>
+                        )}
+                        {resp.timestamp && (
+                           <p className="text-[9px] text-gray-400 mt-2 text-right">
+                             {new Date(resp.timestamp?.toDate ? resp.timestamp.toDate() : Date.now()).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                           </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,8 @@ import bgImage from "./assets/2.png";
 import centerImage1 from "./assets/1.png";
 import btnImage from "./assets/asset_interaktif_10_btn_id.png";
 import starMusic from "./assets/star_nadin.webm";
+import { db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 // Components
 import MenuPage from "./MenuPage";
@@ -15,6 +17,11 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Guest state from URL param
+  const [guestId, setGuestId] = useState<string | null>(null);
+  const [guestName, setGuestName] = useState<string | null>(null);
+
+  // Autoplay music on mount
   useEffect(() => {
     if (audioRef.current && isPlaying) {
       audioRef.current.play().catch((error) => {
@@ -22,6 +29,23 @@ function App() {
         setIsPlaying(false);
       });
     }
+  }, []);
+
+  // Read ?guest= URL param and fetch from Firestore
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('guest');
+    if (!id) return;
+    setGuestId(id);
+    getDoc(doc(db, 'guests', id)).then((snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        setGuestName(data.name ?? null);
+      } else {
+        // Guest ID in URL but not found in Firestore → treat as no guest
+        setGuestId(null);
+      }
+    }).catch(console.error);
   }, []);
 
   const toggleMusic = () => {
@@ -69,21 +93,13 @@ function App() {
       <section className="relative z-10 w-full flex justify-center box-border overflow-hidden" style={{ height: '100dvh' }}>
         {/* Wrapper w-fit ensures its bounds snap tightly to the contained image, making "top-right" place it correctly on the image corner */}
         <div
-          className={`relative flex flex-col items-center transition-all duration-700 ${
-            page === 0
-              ? 'w-fit rounded-2xl overflow-hidden shadow-2xl'
-              : 'w-full'
-          }`}
+          className="relative flex flex-col items-center transition-all duration-700 w-fit rounded-2xl overflow-hidden shadow-2xl"
           style={{ height: '100dvh' }}
         >
           <img 
             src={page === 0 ? centerImage1 : bgImage} 
             alt="Centered image" 
-            className={`transition-all duration-700 ${
-              page === 0
-                ? 'h-full w-auto object-contain'
-                : 'h-full w-full object-cover'
-            } ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
+            className={`transition-all duration-700 h-full w-auto object-contain ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
           />
 
           {/* Language Switcher - Pinned to the top right of the centered image */}
@@ -176,9 +192,18 @@ function App() {
                 <p className="text-[#3b3b3b] font-bold" style={{ fontSize: 'clamp(0.65rem, 2vh, 1rem)' }}>
                   {t.guest}
                 </p>
-                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: 'clamp(0.55rem, 1.5vh, 0.8rem)', marginBottom: '2vh' }}>
+                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: 'clamp(0.55rem, 1.5vh, 0.8rem)', marginBottom: guestName ? '0.5vh' : '2vh' }}>
                   {t.apology}
                 </p>
+                {/* Guest name from URL */}
+                {guestName && (
+                  <p
+                    className="text-[#3b3b3b] font-bold text-center leading-snug"
+                    style={{ fontSize: 'clamp(0.7rem, 2vh, 1rem)', marginBottom: '1vh' }}
+                  >
+                    {guestName}
+                  </p>
+                )}
               </div>
 
               {/* Button Overlay placed over the beige wooden board */}
@@ -201,7 +226,7 @@ function App() {
             </>
           )}
 
-          {page === 1 && <MenuPage onBack={() => setPage(0)} lang={lang} isDarkMode={isDarkMode} />}
+          {page === 1 && <MenuPage onBack={() => setPage(0)} lang={lang} isDarkMode={isDarkMode} guestId={guestId} guestName={guestName} />}
 
         </div>
       </section>
