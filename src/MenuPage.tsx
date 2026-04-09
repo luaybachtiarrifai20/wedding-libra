@@ -14,9 +14,10 @@ import gChip from "./assets/chip-ilustration.png";
 type MenuPageProps = {
   onBack: () => void;
   lang: 'ID' | 'EN';
+  isDarkMode: boolean;
 };
 
-export default function MenuPage({ onBack, lang }: MenuPageProps) {
+export default function MenuPage({ onBack, lang, isDarkMode }: MenuPageProps) {
   const [showDresscode, setShowDresscode] = useState(false);
   const [showRsvp, setShowRsvp] = useState(false);
   const [showDateVenue, setShowDateVenue] = useState(false);
@@ -200,7 +201,7 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
       {/* Qr Code: Upper Left */}
       <div className="absolute top-[10%] left-[15%] w-[18%]">
          <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
-            <img src={gQrCode} alt="Qr Code" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '0ms' }} />
+            <img src={gQrCode} alt="Qr Code" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '0ms' }} />
          </button>
       </div>
 
@@ -208,9 +209,9 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
       <div className="absolute top-[16%] right-[20%] w-[18%]">
          <button 
            onClick={() => setShowDateVenue(true)}
-           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center relative"
          >
-            <img src={gDateVenue} alt="Date & Venue" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '200ms' }} />
+            <img src={gDateVenue} alt="Date & Venue" className={`w-[90%] transition-all duration-700 animate-[zoomInOut_3s_ease-in-out_infinite_alternate] ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)] scale-100' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '200ms' }} />
          </button>
       </div>
 
@@ -218,9 +219,9 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
       <div className="absolute top-[23%] left-[22%] w-[18%]">
          <button 
             onClick={() => setShowDresscode(true)}
-            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center relative"
          >
-            <img src={gDresscode} alt="Dress Code" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '400ms' }} />
+            <img src={gDresscode} alt="Dress Code" className={`w-[85%] transition-all duration-700 animate-[zoomInOut_3s_ease-in-out_infinite_alternate] ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '300ms' }} />
          </button>
       </div>
 
@@ -230,7 +231,7 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
            onClick={() => setShowLoveStory(true)}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
          >
-            <img src={gLoveStory} alt="Love Story" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '100ms' }} />
+            <img src={gLoveStory} alt="Love Story" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '100ms' }} />
          </button>
       </div>
 
@@ -240,7 +241,7 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
            onClick={() => setShowAboutUs(true)}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
          >
-            <img src={gAboutUs} alt="About Us" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '300ms' }} />
+            <img src={gAboutUs} alt="About Us" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '400ms' }} />
          </button>
       </div>
 
@@ -250,7 +251,7 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
             onClick={() => setShowRsvp(true)}
             className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
          >
-            <img src={gRsvp} alt="RSVP" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '500ms' }} />
+            <img src={gRsvp} alt="RSVP" className={`w-[85%] transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '150ms' }} />
          </button>
       </div>
 
@@ -260,7 +261,7 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
            onClick={() => { setShowGift(true); setShowGiftDetails(false); }}
            className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
          >
-            <img src={gGift} alt="Wedding Gift" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '250ms' }} />
+            <img src={gGift} alt="Wedding Gift" className={`w-full transition-all duration-700 animate-zoom-in-out ${isDarkMode ? 'drop-shadow-[0_0_25px_rgba(255,223,0,0.95)]' : 'drop-shadow-[0_0_12px_rgba(180,240,255,0.9)]'}`} style={{ animationDelay: '250ms' }} />
          </button>
       </div>
 
@@ -688,23 +689,23 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
                {showGiftDetails && (
                  <div className="w-full flex flex-col gap-4 mt-4 animate-zoom-in-out" style={{ animationIterationCount: 1, animationDuration: "0.5s" }}>
                    
-                   {/* BCA Card */}
+                   {/* Jago Syariah Card */}
                    <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
                       <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
                       <div className="relative z-10">
                           <div className="flex justify-between items-start mb-6">
-                              <span className="font-extrabold italic text-2xl text-[#003399] drop-shadow-sm tracking-tighter">BCA</span>
+                              <span className="font-extrabold italic text-xl text-[#f36f21] drop-shadow-sm tracking-tight leading-none mt-1">JAGO<br/>SYARIAH</span>
                               <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
                           </div>
                           <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
-                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">123123123</p>
+                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">501001474823</p>
                           
                           <div className="flex justify-between items-end gap-2">
                               <div>
                                   <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
                                   <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Ramizah Ariq Sakinah Irvansyah</p>
                               </div>
-                              <button onClick={() => handleCopy("123123123")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
+                              <button onClick={() => handleCopy("501001474823")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                                 {t.copyBtn}
                               </button>
@@ -712,47 +713,23 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
                       </div>
                    </div>
 
-                   {/* BNI Card */}
+                   {/* BSI Card */}
                    <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
                       <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
                       <div className="relative z-10">
                           <div className="flex justify-between items-start mb-6">
-                              <span className="font-extrabold italic text-2xl text-[#f36523] drop-shadow-sm tracking-tighter">BNI</span>
+                              <span className="font-extrabold italic text-2xl text-[#00a294] drop-shadow-sm tracking-tighter">BSI</span>
                               <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
                           </div>
                           <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
-                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">321321321</p>
+                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">7233525175</p>
                           
                           <div className="flex justify-between items-end gap-2">
                               <div>
                                   <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
                                   <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Luay Bachtiar Rifai</p>
                               </div>
-                              <button onClick={() => handleCopy("321321321")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
-                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                                {t.copyBtn}
-                              </button>
-                          </div>
-                      </div>
-                   </div>
-
-                   {/* BRI Card */}
-                   <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
-                      <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
-                      <div className="relative z-10">
-                          <div className="flex justify-between items-start mb-6">
-                              <span className="font-extrabold italic text-2xl text-[#0b5c9c] drop-shadow-sm tracking-tighter">BRI</span>
-                              <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
-                          </div>
-                          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
-                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">123111222</p>
-                          
-                          <div className="flex justify-between items-end gap-2">
-                              <div>
-                                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
-                                  <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Luay Bachtiar Rifai</p>
-                              </div>
-                              <button onClick={() => handleCopy("123111222")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
+                              <button onClick={() => handleCopy("7233525175")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                                 {t.copyBtn}
                               </button>
