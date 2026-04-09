@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import gDateVenue from "./assets/asset_interaktif_10_date_venue.png";
 import gDresscode from "./assets/asset_interaktif_10_dresscode_hijab.png";
 import gAboutUs from "./assets/asset_interaktif_10_about_us_hijab.png";
@@ -6,6 +6,10 @@ import gLoveStory from "./assets/asset_interaktif_10_love_story_hijab.png";
 import gRsvp from "./assets/asset_interaktif_10_rsvp.png";
 import gGift from "./assets/asset_interaktif_10_gift.png";
 import gQrCode from "./assets/qr_code.png";
+import gAboutUs2 from "./assets/assets_merah.jpg";
+import gPutri from "./assets/asset_putri.jpg";
+import gPutra from "./assets/asset_putra.jpg";
+import gChip from "./assets/chip-ilustration.png";
 
 type MenuPageProps = {
   onBack: () => void;
@@ -15,6 +19,50 @@ type MenuPageProps = {
 export default function MenuPage({ onBack, lang }: MenuPageProps) {
   const [showDresscode, setShowDresscode] = useState(false);
   const [showRsvp, setShowRsvp] = useState(false);
+  const [showDateVenue, setShowDateVenue] = useState(false);
+  const [showAboutUs, setShowAboutUs] = useState(false);
+  const [showLoveStory, setShowLoveStory] = useState(false);
+  const [showGift, setShowGift] = useState(false);
+  const [showGiftDetails, setShowGiftDetails] = useState(false);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert(lang === 'ID' ? 'Berhasil disalin: ' + text : 'Successfully copied: ' + text);
+  };
+
+  // Countdown logic target date "Sabtu, 27 Juni 2026 08:00 WIB"
+  const targetDate = new Date("2026-06-27T08:00:00+07:00").getTime();
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    // initial check to avoid 1 sec delay
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+      });
+    };
+    
+    calculateTimeLeft();
+    const interval = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const t = {
     ID: {
@@ -30,7 +78,51 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
       rsvpAttend: "Hadir",
       rsvpDecline: "Tidak Hadir",
       rsvpSpecialTitle: "Khusus Undangan",
-      rsvpSpecialDesc: "Fitur ini hanya dapat diakses oleh tamu yang terdaftar."
+      rsvpSpecialDesc: "Fitur ini hanya dapat diakses oleh tamu yang terdaftar.",
+      dateVenueTitle: "Data Acara",
+      saveTheDate: "Save The Date",
+      days: "Hari",
+      hours: "Jam",
+      minutes: "Menit",
+      seconds: "Detik",
+      saveDateBtn: "Simpan Tanggal",
+      akadNikah: "Akad Nikah",
+      dateAkad: "Sabtu, 27 Juni 2026",
+      timeAkad: "08:00 WIB",
+      resepsi: "Resepsi",
+      dateResepsi: "Sabtu, 27 Juni 2026",
+      eventLocation: "Lokasi Acara",
+      venueName: "Arif Rahman Hakim Convention Hall",
+      venueAddress: "Jl. Arief Rahman Hakim No.131, Keputih, Kec. Sukolilo, Surabaya",
+      googleMapsBtn: "Google Maps",
+      liveStreaming: "Live Streaming",
+      liveStreamingDesc: "Temui kami secara virtual untuk menyaksikan acara pernikahan kami yang insyaaAllah akan disiarkan langsung melalui link dibawah ini.",
+      liveStreamBtn: "Lihat Live Streaming",
+      aboutUsTitle: "Tentang Kami",
+      quranQuote: "\"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.\"",
+      quranSource: "Q.S Ar-Rum : 21",
+      greeting: "Assalamu'alaikum Warahmatullahi Wabarakatuh",
+      prayer: "Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.",
+      brideChildOf: "Putri Pertama dari",
+      groomChildOf: "Putra Ketiga dari",
+      loveStoryTitle: "Love Story",
+      lsHeading1: "Rajutan",
+      lsHeading2: "Keabadian",
+      lsSubHeading: "Di mana Takdir Akhirnya Berpulang...",
+      lsP1: "Di sebuah musim dengan harapan yang saling bertaut, kami menemukan sesuatu yang jauh lebih dalam dari sekadar pencapaian yang kami kejar. Kami adalah penenun mimpi yang sama, berdampingan, hingga kehidupan membisikkan arah yang berbeda dan menarik kami ke dalam ketidaktahuan yang luas.",
+      lsP2: "Jarak di antara kami merentang jauh, dan gaung tentang 'kita' memudar, namun fondasinya tetap ada. Kini, Tuhan telah menyatukan kembali jalan kami untuk pulang.",
+      lsP3: "Kami tak lagi berjalan menuju cakrawala yang fana; kami memulai sebuah perjalanan besar yang melampaui waktu—bersama untuk selamanya.",
+      giftTitle: "Wedding Gift",
+      giftMessage1: "Doa Restu Anda merupakan karunia yang sangat berarti bagi kami.",
+      giftMessage2: "Dan jika memberi adalah ungkapan tanda kasih, Anda dapat memberi melalui dibawah ini.",
+      clickHereBtn: "Klik di Sini",
+      accountNo: "No Rekening",
+      accountName: "Atas Nama",
+      copyBtn: "Salin",
+      giftBox: "Kado",
+      recipientName: "Nama Penerima",
+      recipientAddress: "Alamat Penerima",
+      addressText: "Ciptonegaran 004/006 Sanggrahan Grogol Sukoharjo"
     },
     EN: {
       back: "Back",
@@ -45,7 +137,51 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
       rsvpAttend: "Attend",
       rsvpDecline: "Can't Attend",
       rsvpSpecialTitle: "Guest Only",
-      rsvpSpecialDesc: "This feature is only accessible to registered guests."
+      rsvpSpecialDesc: "This feature is only accessible to registered guests.",
+      dateVenueTitle: "Event Details",
+      saveTheDate: "Save The Date",
+      days: "Days",
+      hours: "Hours",
+      minutes: "Mins",
+      seconds: "Secs",
+      saveDateBtn: "Save the Date",
+      akadNikah: "Wedding Ceremony",
+      dateAkad: "Saturday, June 27, 2026",
+      timeAkad: "08:00 AM",
+      resepsi: "Wedding Reception",
+      dateResepsi: "Saturday, June 27, 2026",
+      eventLocation: "Venue",
+      venueName: "Arif Rahman Hakim Convention Hall",
+      venueAddress: "Jl. Arief Rahman Hakim No.131, Keputih, Kec. Sukolilo, Surabaya",
+      googleMapsBtn: "Google Maps",
+      liveStreaming: "Live Streaming",
+      liveStreamingDesc: "Meet us virtually to witness our wedding event which will be broadcasted live through the link below.",
+      liveStreamBtn: "Watch Live Stream",
+      aboutUsTitle: "About Us",
+      quranQuote: "\"And of His signs is that He created for you from yourselves mates that you may find tranquility in them; and He placed between you affection and mercy.\"",
+      quranSource: "Q.S Ar-Rum : 21",
+      greeting: "Assalamu'alaikum Warahmatullahi Wabarakatuh",
+      prayer: "Glory be to Allah who created His creatures in pairs. O Allah, may Your blessings be poured upon our marriage.",
+      brideChildOf: "First daughter of",
+      groomChildOf: "Third son of",
+      loveStoryTitle: "Love Story",
+      lsHeading1: "The Infinite",
+      lsHeading2: "Tapestry",
+      lsSubHeading: "Where Destiny Finally Returns...",
+      lsP1: "In a season of intertwined hopes, we found something far deeper than the milestones we were chasing. We were weavers of a common dream, side by side, until life whispered a different direction and pulled us into the vast unknown.",
+      lsP2: "The space between us was long, and the echoes of 'us' grew faint, but the foundation remained. Now, God has aligned our paths to bring us home.",
+      lsP3: "We are no longer walking toward fleeting horizons; we are beginning the one odyssey that transcends time—our forever together.",
+      giftTitle: "Wedding Gift",
+      giftMessage1: "Your blessings are a tremendous gift that means a lot to us.",
+      giftMessage2: "And if giving is a token of your affection, you can give via the options below.",
+      clickHereBtn: "Click Here",
+      accountNo: "Account No",
+      accountName: "Account Name",
+      copyBtn: "Copy",
+      giftBox: "Gift Package",
+      recipientName: "Recipient Name",
+      recipientAddress: "Shipping Address",
+      addressText: "Ciptonegaran 004/006 Sanggrahan Grogol Sukoharjo"
     }
   }[lang];
 
@@ -70,7 +206,10 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
 
       {/* Date & Venue: Upper Right */}
       <div className="absolute top-[16%] right-[20%] w-[18%]">
-         <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
+         <button 
+           onClick={() => setShowDateVenue(true)}
+           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+         >
             <img src={gDateVenue} alt="Date & Venue" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '200ms' }} />
          </button>
       </div>
@@ -87,14 +226,20 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
 
       {/* Love Story: Mid Left Edge */}
       <div className="absolute top-[40%] left-[6%] w-[20%]">
-         <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
+         <button 
+           onClick={() => setShowLoveStory(true)}
+           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+         >
             <img src={gLoveStory} alt="Love Story" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '100ms' }} />
          </button>
       </div>
 
       {/* About Us: Center */}
       <div className="absolute top-[36%] left-[32%] w-[33%]">
-         <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
+         <button 
+           onClick={() => setShowAboutUs(true)}
+           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+         >
             <img src={gAboutUs} alt="About Us" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '300ms' }} />
          </button>
       </div>
@@ -111,7 +256,10 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
 
       {/* Gift: Bottom Right */}
       <div className="absolute bottom-[20%] right-[12%] w-[26%]">
-         <button className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center">
+         <button 
+           onClick={() => { setShowGift(true); setShowGiftDetails(false); }}
+           className="cursor-pointer hover:brightness-110 active:scale-95 transition-all w-full flex items-center justify-center"
+         >
             <img src={gGift} alt="Wedding Gift" className="w-full drop-shadow-[0_0_12px_rgba(180,240,255,0.9)] animate-zoom-in-out" style={{ animationDelay: '250ms' }} />
          </button>
       </div>
@@ -224,6 +372,420 @@ export default function MenuPage({ onBack, lang }: MenuPageProps) {
                   {t.rsvpSpecialDesc}
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Date & Venue Popup */}
+      {showDateVenue && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+          <div 
+             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             style={{ 
+               boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
+             }}
+          >
+            {/* Header */}
+            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                {t.dateVenueTitle}
+              </h2>
+              <button 
+                onClick={() => setShowDateVenue(false)}
+                className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-5 py-5 pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
+              
+              {/* Save The Date Card */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+                <h3 className="text-[#b91c1c] font-black text-lg mb-4" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.saveTheDate}</h3>
+                
+                <div className="flex justify-center gap-2 mb-5">
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.days).padStart(2, '0')}</div>
+                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.days}</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.hours).padStart(2, '0')}</div>
+                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.hours}</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.minutes}</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-[#b91c1c] text-white text-lg font-bold rounded-lg w-11 h-12 flex items-center justify-center shadow-inner">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                    <span className="text-[10px] sm:text-xs text-gray-600 mt-1 font-bold">{t.seconds}</span>
+                  </div>
+                </div>
+
+                <button className="bg-[#b91c1c] text-white rounded-xl py-2 px-6 text-xs font-bold hover:bg-red-800 transition-colors shadow-[0_3px_0_0_#7f1d1d] hover:translate-y-[1px] hover:shadow-[0_2px_0_0_#7f1d1d] active:shadow-none active:translate-y-[3px] flex items-center justify-center gap-2 mx-auto">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  {t.saveDateBtn}
+                </button>
+              </div>
+
+              {/* Akad Nikah & Resepsi Card */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+                <h3 className="text-[#b91c1c] font-black text-lg mb-2" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.akadNikah}</h3>
+                <p className="text-sm font-medium text-gray-800">{t.dateAkad}</p>
+                <div className="flex items-center justify-center gap-1 text-sm font-medium text-gray-800 mb-2 mt-1">
+                  <svg className="w-3.5 h-3.5 text-[#b91c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  {t.timeAkad}
+                </div>
+                <p className="text-xs text-gray-500 mt-3">{t.eventLocation}</p>
+                <p className="text-sm font-bold text-gray-800 mt-1 mb-1">{t.venueName}</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed max-w-[80%] mx-auto">{t.venueAddress}</p>
+
+                <div className="flex items-center justify-center gap-2 my-5 opacity-70">
+                  <div className="h-px w-20 bg-red-300"></div>
+                  <svg className="w-3.5 h-3.5 text-[#b91c1c]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
+                  <div className="h-px w-20 bg-red-300"></div>
+                </div>
+
+                <h3 className="text-[#b91c1c] font-black text-lg mb-2" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.resepsi}</h3>
+                <p className="text-sm font-medium text-gray-800 mb-2">{t.dateResepsi}</p>
+                <p className="text-xs text-gray-500 mt-3">{t.eventLocation}</p>
+                <p className="text-sm font-bold text-gray-800 mt-1 mb-1">{t.venueName}</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed max-w-[80%] mx-auto mb-5">{t.venueAddress}</p>
+                
+                <a 
+                  href="https://share.google/9aUc3iXU0w5R66gQy" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#b91c1c] text-white rounded-xl py-2 px-5 text-xs font-bold hover:bg-red-800 transition-colors shadow-[0_3px_0_0_#7f1d1d] hover:translate-y-[1px] hover:shadow-[0_2px_0_0_#7f1d1d] active:shadow-none active:translate-y-[3px] flex items-center justify-center gap-2 mx-auto w-fit cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+                  {t.googleMapsBtn}
+                </a>
+              </div>
+
+              {/* Live Streaming Card */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-2">
+                <h3 className="text-[#b91c1c] font-black text-lg mb-3" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.liveStreaming}</h3>
+                <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed mb-5">
+                  {t.liveStreamingDesc}
+                </p>
+                <a 
+                  href="https://www.instagram.com/zaramizah" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#b91c1c] text-white rounded-xl py-2 px-5 text-xs font-bold hover:bg-red-800 transition-colors shadow-[0_3px_0_0_#7f1d1d] hover:translate-y-[1px] hover:shadow-[0_2px_0_0_#7f1d1d] active:shadow-none active:translate-y-[3px] flex items-center justify-center gap-2 mx-auto w-fit cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                  {t.liveStreamBtn}
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+      {/* About Us Popup */}
+      {showAboutUs && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+          <div 
+             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             style={{ 
+               boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
+             }}
+          >
+            {/* Header */}
+            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                {t.aboutUsTitle}
+              </h2>
+              <button 
+                onClick={() => setShowAboutUs(false)}
+                className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center gap-2 mx-auto"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-5 py-5 pb-6 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar">
+              
+              {/* Card 1: Quran Quote */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-2 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6 flex flex-col items-center">
+                <img src={gAboutUs2} alt="About Us" className="w-[100%] mb-4 opacity-90 drop-shadow-md rounded-xl" />
+                <p className="text-[11px] sm:text-[12px] text-gray-700 leading-relaxed max-w-[95%] mb-4 italic">
+                  {t.quranQuote}
+                </p>
+                <p className="text-sm font-black text-gray-800 tracking-wider">
+                  {t.quranSource}
+                </p>
+              </div>
+
+              {/* Card 2: Prayer */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-5 px-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6 flex flex-col items-center">
+                <div className="flex items-center justify-center gap-2 mb-4 w-full">
+                  <div className="h-px bg-red-200 flex-1"></div>
+                  <svg className="w-4 h-4 text-[#b91c1c]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
+                  <div className="h-px bg-red-200 flex-1"></div>
+                </div>
+                <h3 className="text-xs sm:text-sm font-extrabold text-gray-800 mb-4 leading-relaxed max-w-[80%]">
+                  {t.greeting}
+                </h3>
+                <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-medium">
+                  {t.prayer}
+                </p>
+              </div>
+
+              {/* Card 3: Bride */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 pb-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-6">
+                <div className="relative w-full aspect-[4/5] bg-white border-2 border-gray-100 rounded-lg mb-6 shadow-inner">
+                  <img src={gPutri} alt="Ramizah" className="w-full h-full object-cover rounded-md" />
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#b91c1c] text-white font-black text-sm px-6 py-1 rounded-full shadow-[0_3px_0_0_#7f1d1d] tracking-widest outline outline-4 outline-white" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                    Ramizah
+                  </div>
+                </div>
+                
+                <h3 className="font-bold text-gray-900 text-sm mb-1 mt-3">Ramizah Ariq Sakinah Irvansyah</h3>
+                <p className="text-[10px] text-gray-500 mb-1 font-medium">{t.brideChildOf}</p>
+                <p className="text-[10px] sm:text-[11px] text-gray-800 font-bold max-w-[85%] mx-auto leading-relaxed mb-4">
+                  Bapak Ars. Irvasyah, ST., MT dan Ibu Santi Williandari A.Md., S.S
+                </p>
+                <a 
+                  href="https://www.instagram.com/zaramizah" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#b91c1c] text-white rounded-full py-1.5 px-4 text-[10px] font-bold hover:bg-red-800 transition-colors shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  @zaramizah
+                </a>
+              </div>
+
+              {/* Card 4: Groom */}
+              <div className="w-full border-2 border-red-200 rounded-xl p-3 pb-6 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-2">
+                <div className="relative w-full aspect-[4/5] bg-white border-2 border-gray-100 rounded-lg mb-6 shadow-inner">
+                  <img src={gPutra} alt="Luay" className="w-full h-full object-cover rounded-md" />
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#b91c1c] text-white font-black text-sm px-7 py-1 rounded-full shadow-[0_3px_0_0_#7f1d1d] tracking-widest outline outline-4 outline-white" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                    Luay
+                  </div>
+                </div>
+                
+                <h3 className="font-bold text-gray-900 text-sm mb-1 mt-3">Luay Bachtiar Rifai</h3>
+                <p className="text-[10px] text-gray-500 mb-1 font-medium">{t.groomChildOf}</p>
+                <p className="text-[10px] sm:text-[11px] text-gray-800 font-bold max-w-[85%] mx-auto leading-relaxed mb-4">
+                  Alm Bapak Mustafa Abdullah dan Ibu Emmy Noor Laily
+                </p>
+                <a 
+                  href="https://www.instagram.com/luaybachtiar" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#b91c1c] text-white rounded-full py-1.5 px-4 text-[10px] font-bold hover:bg-red-800 transition-colors shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  @luaybachtiar
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Love Story Popup */}
+      {showLoveStory && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+          <div 
+             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             style={{ 
+               boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
+             }}
+          >
+            {/* Header */}
+            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                {t.loveStoryTitle}
+              </h2>
+              <button 
+                onClick={() => setShowLoveStory(false)}
+                className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center gap-2 mx-auto"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-6 py-10 pb-12 flex flex-col items-center text-center bg-white rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
+               <h3 className="text-[22px] sm:text-2xl text-[#b91c1c] mb-3 leading-tight font-medium" style={{ fontFamily: "Georgia, serif" }}>
+                 {t.lsHeading1}<br />{t.lsHeading2}
+               </h3>
+               <p className="text-xs text-gray-500 italic mb-8">
+                 {t.lsSubHeading}
+               </p>
+
+               <div className="text-xs sm:text-[13px] text-gray-700 leading-[1.8] space-y-6 px-1">
+                 <p>{t.lsP1}</p>
+                 <p>{t.lsP2}</p>
+                 <p>{t.lsP3}</p>
+               </div>
+
+               <div className="mt-12 font-bold text-[#b91c1c] text-xl sm:text-2xl" style={{ fontFamily: "Georgia, serif" }}>
+                 R &amp; L
+               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Wedding Gift Popup */}
+      {showGift && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[2px] transition-opacity rounded-2xl">
+          <div 
+             className="relative w-full max-w-[360px] bg-white rounded-2xl flex flex-col shadow-2xl border-[3px] border-white ring-4 ring-[#b91c1c] max-h-[88%]"
+             style={{ 
+               boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 4px #b91c1c inset' 
+             }}
+          >
+            {/* Header */}
+            <div className="bg-[#b91c1c] py-3 px-4 flex items-center justify-center relative rounded-t-xl mx-1 mt-1 shrink-0">
+              <h2 className="text-white text-xl sm:text-2xl tracking-wider pt-1" style={{ fontFamily: "'Talk Comic', sans-serif" }}>
+                {t.giftTitle}
+              </h2>
+              <button 
+                onClick={() => setShowGift(false)}
+                className="absolute right-3 bg-white text-[#b91c1c] rounded-full p-0.5 hover:scale-110 transition-transform shadow-md cursor-pointer flex items-center justify-center gap-2 mx-auto"
+                aria-label="Close"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            {/* Body */}
+            <div className="px-5 py-6 pb-8 flex flex-col items-center text-center bg-white/95 rounded-b-xl mx-1 mb-1 overflow-y-auto custom-scrollbar relative">
+               
+               <img src={gGift} alt="Gift Box" className="w-[50%] mb-4 drop-shadow-md" />
+               <p className="text-xs sm:text-sm text-gray-800 mb-2 font-medium leading-relaxed px-2">
+                 {t.giftMessage1}
+               </p>
+               <p className="text-xs sm:text-sm text-gray-800 mb-6 font-medium leading-relaxed px-2">
+                 {t.giftMessage2}
+               </p>
+
+               <button 
+                 onClick={() => setShowGiftDetails(true)}
+                 className="bg-[#b91c1c] text-white rounded-xl py-2 px-6 text-xs sm:text-sm font-bold shadow-[0_3px_0_0_#7f1d1d] hover:translate-y-[1px] hover:shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[3px] active:shadow-none hover:bg-red-800 transition-all mb-4 flex items-center justify-center gap-2"
+               >
+                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4h12v12H4V4zm2 2v8h8V6H6zm2 2h4v4H8V8z"/></svg>
+                 {t.clickHereBtn}
+               </button>
+
+               {/* Render Bank Cards only after clicking */}
+               {showGiftDetails && (
+                 <div className="w-full flex flex-col gap-4 mt-4 animate-zoom-in-out" style={{ animationIterationCount: 1, animationDuration: "0.5s" }}>
+                   
+                   {/* BCA Card */}
+                   <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
+                      <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
+                      <div className="relative z-10">
+                          <div className="flex justify-between items-start mb-6">
+                              <span className="font-extrabold italic text-2xl text-[#003399] drop-shadow-sm tracking-tighter">BCA</span>
+                              <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
+                          </div>
+                          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
+                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">123123123</p>
+                          
+                          <div className="flex justify-between items-end gap-2">
+                              <div>
+                                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
+                                  <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Ramizah Ariq Sakinah Irvansyah</p>
+                              </div>
+                              <button onClick={() => handleCopy("123123123")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                {t.copyBtn}
+                              </button>
+                          </div>
+                      </div>
+                   </div>
+
+                   {/* BNI Card */}
+                   <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
+                      <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
+                      <div className="relative z-10">
+                          <div className="flex justify-between items-start mb-6">
+                              <span className="font-extrabold italic text-2xl text-[#f36523] drop-shadow-sm tracking-tighter">BNI</span>
+                              <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
+                          </div>
+                          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
+                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">321321321</p>
+                          
+                          <div className="flex justify-between items-end gap-2">
+                              <div>
+                                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
+                                  <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Luay Bachtiar Rifai</p>
+                              </div>
+                              <button onClick={() => handleCopy("321321321")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                {t.copyBtn}
+                              </button>
+                          </div>
+                      </div>
+                   </div>
+
+                   {/* BRI Card */}
+                   <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca]">
+                      <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
+                      <div className="relative z-10">
+                          <div className="flex justify-between items-start mb-6">
+                              <span className="font-extrabold italic text-2xl text-[#0b5c9c] drop-shadow-sm tracking-tighter">BRI</span>
+                              <img src={gChip} alt="Chip" className="w-9 h-auto opacity-90 drop-shadow flex-shrink-0" />
+                          </div>
+                          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountNo}</p>
+                          <p className="text-lg font-extrabold text-gray-800 tracking-widest mb-4 drop-shadow-sm">123111222</p>
+                          
+                          <div className="flex justify-between items-end gap-2">
+                              <div>
+                                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.accountName}</p>
+                                  <p className="text-[11px] sm:text-xs font-bold text-gray-800 italic max-w-[150px] leading-tight">Luay Bachtiar Rifai</p>
+                              </div>
+                              <button onClick={() => handleCopy("123111222")} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 shrink-0">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                {t.copyBtn}
+                              </button>
+                          </div>
+                      </div>
+                   </div>
+
+                   {/* Kado Delivery Card */}
+                   <div className="relative w-full rounded-2xl overflow-hidden shadow-[4px_4px_0_0_#b91c1c] border-[3px] border-red-200 p-5 text-left bg-gradient-to-br from-[#ffffff] to-[#fecaca] mt-2">
+                      <div className="absolute inset-0 opacity-10 bg-black mix-blend-overlay"></div>
+                      <div className="relative z-10">
+                          <h3 className="font-extrabold text-[#b91c1c] text-xl tracking-wide mb-5 drop-shadow-sm">{t.giftBox}</h3>
+                          
+                          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-0.5">{t.recipientName}</p>
+                          <p className="text-sm font-bold text-gray-800 mb-4 drop-shadow-sm">Ramizah / Luay</p>
+                          
+                          <div className="flex flex-col gap-3">
+                              <div>
+                                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-1">{t.recipientAddress}</p>
+                                  <p className="text-[11px] sm:text-xs font-medium text-gray-800 italic max-w-[85%] leading-relaxed">
+                                    {t.addressText}
+                                  </p>
+                              </div>
+                              <button onClick={() => handleCopy(t.addressText)} className="bg-[#b91c1c] text-white rounded-xl py-1.5 px-4 text-[10px] font-bold shadow-[0_2px_0_0_#7f1d1d] active:translate-y-[2px] active:shadow-none flex items-center gap-1.5 hover:bg-red-800 self-end">
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                {t.copyBtn}
+                              </button>
+                          </div>
+                      </div>
+                   </div>
+
+                 </div>
+               )}
             </div>
           </div>
         </div>
