@@ -164,42 +164,42 @@ function App() {
               <div 
                 className="absolute flex flex-col justify-center items-center text-center"
                 style={{
-                  top: '25%',
-                  bottom: '37%',
-                  left: '4%',
-                  right: '4%',
-                  padding: '0 clamp(4px, 2vw, 12px)',
+                  top: '30%',
+                  bottom: '38%',
+                  left: '6%',
+                  right: '6%',
+                  padding: '0 2vw',
                 }}
               >
-                <p className="text-[#3b3b3b] font-bold" style={{ marginBottom: '0.5vh', fontFamily: "'Talk Comic', sans-serif", fontSize: 'clamp(0.75rem, 3vh, 1.25rem)' }}>
+                <p className="text-[#3b3b3b] font-bold" style={{ marginBottom: '0.2vh', fontFamily: "'Talk Comic', sans-serif", fontSize: 'clamp(0.6rem, 2.2vh, 0.9rem)' }}>
                   {t.weddingOf}
                 </p>
                 <h1 
                   className="font-black text-[#e43232] tracking-wider whitespace-nowrap"
                   style={{
-                    fontSize: 'clamp(1.1rem, 4.8vh, 2.4rem)',
-                    WebkitTextStroke: '0.15vh #4a1515',
-                    textShadow: '0.2vh 0.2vh 0px #4a1515',
-                    marginBottom: '1vh',
+                    fontSize: 'clamp(1rem, 4vh, 2rem)',
+                    WebkitTextStroke: '0.12vh #4a1515',
+                    textShadow: '0.15vh 0.15vh 0px #4a1515',
+                    marginBottom: '0.8vh',
                     fontFamily: "'Talk Comic', sans-serif"
                   }}
                 >
                   Ramizah & Luay
                 </h1>
-                <p className="text-[#3b3b3b]" style={{ fontSize: 'clamp(0.65rem, 2vh, 1rem)' }}>
+                <p className="text-[#3b3b3b]" style={{ fontSize: 'clamp(0.55rem, 1.6vh, 0.8rem)' }}>
                   {t.to}
                 </p>
-                <p className="text-[#3b3b3b] font-bold" style={{ fontSize: 'clamp(0.65rem, 2vh, 1rem)' }}>
+                <p className="text-[#3b3b3b] font-bold" style={{ fontSize: 'clamp(0.55rem, 1.8vh, 0.85rem)', marginBottom: '0.2vh' }}>
                   {t.guest}
                 </p>
-                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: 'clamp(0.55rem, 1.5vh, 0.8rem)', marginBottom: guestName ? '0.5vh' : '2vh' }}>
+                <p className="text-[#4a4a4a] italic leading-tight" style={{ fontSize: 'clamp(0.45rem, 1.3vh, 0.65rem)', marginBottom: guestName ? '0.2vh' : '1.5vh' }}>
                   {t.apology}
                 </p>
                 {/* Guest name from URL */}
                 {guestName && (
                   <p
-                    className="text-[#3b3b3b] font-bold text-center leading-snug"
-                    style={{ fontSize: 'clamp(0.7rem, 2vh, 1rem)', marginBottom: '1vh' }}
+                    className="text-[#e43232] font-black text-center leading-snug tracking-wide"
+                    style={{ fontSize: 'clamp(0.7rem, 2.2vh, 1.1rem)', marginBottom: '0.5vh', fontFamily: "'Talk Comic', sans-serif", textShadow: '0.5px 0.5px 0px #4a1515' }}
                   >
                     {guestName}
                   </p>
