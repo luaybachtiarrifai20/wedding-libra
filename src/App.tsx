@@ -29,17 +29,18 @@ function App() {
         setIsPlaying(false);
       });
     }
-  }, []);
+  }, [isPlaying]);
 
   // Read ?guest= URL param and fetch from Firestore
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('guest');
     if (!id) return;
-    setGuestId(id);
+    
     getDoc(doc(db, 'guests', id)).then((snap) => {
       if (snap.exists()) {
         const data = snap.data();
+        setGuestId(id);
         setGuestName(data.name ?? null);
       } else {
         // Guest ID in URL but not found in Firestore → treat as no guest
@@ -99,7 +100,7 @@ function App() {
           <img 
             src={page === 0 ? centerImage1 : bgImage} 
             alt="Centered image" 
-            className={`transition-all duration-700 h-full w-auto object-contain ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
+            className={`transition-all duration-700 h-full w-auto object-cover md:object-contain ${isDarkMode ? 'brightness-[0.4] contrast-125' : 'brightness-100'}`}
           />
 
           {/* Language Switcher - Pinned to the top right of the centered image */}

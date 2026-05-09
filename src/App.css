@@ -13,3 +13,17 @@
 .animate-zoom-in-out {
   animation: zoomInOut 3s ease-in-out infinite;
 }
+
+/* Ensure full height on mobile devices */
+@media (max-width: 768px) {
+  html,
+  body {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
