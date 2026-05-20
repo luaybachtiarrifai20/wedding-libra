@@ -9,9 +9,9 @@ import gLoveStory from "./assets/asset_interaktif_10_love_story_hijab.png";
 import gRsvp from "./assets/asset_interaktif_10_rsvp.png";
 import gGift from "./assets/asset_interaktif_10_gift.png";
 import gQrCode from "./assets/qr_code.png";
-import gAboutUs2 from "./assets/assets_merah.jpg";
-import gPutri from "./assets/asset_putri.jpg";
-import gPutra from "./assets/asset_putra.jpg";
+import gAboutUs2 from "./assets/bersama.jpeg";
+import gPutri from "./assets/ramizah.jpeg";
+import gPutra from "./assets/luay.jpeg";
 
 type MenuPageProps = {
   onBack: () => void;
@@ -148,9 +148,10 @@ const [responses, setResponses] = useState<Response[]>([]);
       saveDateBtn: "Simpan Tanggal",
       akadNikah: "Akad Nikah",
       dateAkad: "Sabtu, 27 Juni 2026",
-      timeAkad: "08:00 WIB",
+      timeAkad: "",
       resepsi: "Resepsi",
       dateResepsi: "Sabtu, 27 Juni 2026",
+      timeResepsi: "09:00 WIB",
       eventLocation: "Lokasi Acara",
       venueName: "Arif Rahman Hakim Convention Hall",
       venueAddress: "Jl. Arief Rahman Hakim No.131, Keputih, Kec. Sukolilo, Surabaya",
@@ -207,9 +208,10 @@ const [responses, setResponses] = useState<Response[]>([]);
       saveDateBtn: "Save the Date",
       akadNikah: "Wedding Ceremony",
       dateAkad: "Saturday, June 27, 2026",
-      timeAkad: "08:00 AM",
+      timeAkad: "",
       resepsi: "Wedding Reception",
       dateResepsi: "Saturday, June 27, 2026",
+      timeResepsi: "09:00 AM",
       eventLocation: "Venue",
       venueName: "Arif Rahman Hakim Convention Hall",
       venueAddress: "Jl. Arief Rahman Hakim No.131, Keputih, Kec. Sukolilo, Surabaya",
@@ -614,10 +616,12 @@ const [responses, setResponses] = useState<Response[]>([]);
               <div className="w-full border-2 border-red-200 rounded-xl p-3 sm:p-5 shadow-[4px_4px_0_0_#b91c1c] bg-white mb-5">
                 <h3 className="text-[#b91c1c] font-black text-lg mb-2" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.akadNikah}</h3>
                 <p className="text-sm font-medium text-gray-800">{t.dateAkad}</p>
-                <div className="flex items-center justify-center gap-1 text-sm font-medium text-gray-800 mb-2 mt-1">
-                  <svg className="w-3.5 h-3.5 text-[#b91c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  {t.timeAkad}
-                </div>
+                {t.timeAkad && (
+                  <div className="flex items-center justify-center gap-1 text-sm font-medium text-gray-800 mb-2 mt-1">
+                    <svg className="w-3.5 h-3.5 text-[#b91c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    {t.timeAkad}
+                  </div>
+                )}
                 <p className="text-xs text-gray-500 mt-3">{t.eventLocation}</p>
                 <p className="text-sm font-bold text-gray-800 mt-1 mb-1">{t.venueName}</p>
                 <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed max-w-[80%] mx-auto">{t.venueAddress}</p>
@@ -629,7 +633,13 @@ const [responses, setResponses] = useState<Response[]>([]);
                 </div>
 
                 <h3 className="text-[#b91c1c] font-black text-lg mb-2" style={{ fontFamily: "'Talk Comic', sans-serif" }}>{t.resepsi}</h3>
-                <p className="text-sm font-medium text-gray-800 mb-2">{t.dateResepsi}</p>
+                <p className="text-sm font-medium text-gray-800">{t.dateResepsi}</p>
+                {t.timeResepsi && (
+                  <div className="flex items-center justify-center gap-1 text-sm font-medium text-gray-800 mb-2 mt-1">
+                    <svg className="w-3.5 h-3.5 text-[#b91c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    {t.timeResepsi}
+                  </div>
+                )}
                 <p className="text-xs text-gray-500 mt-3">{t.eventLocation}</p>
                 <p className="text-sm font-bold text-gray-800 mt-1 mb-1">{t.venueName}</p>
                 <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed max-w-[80%] mx-auto mb-5">{t.venueAddress}</p>
