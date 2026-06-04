@@ -85,10 +85,10 @@ export default function MenuPage({ onBack, lang, isDarkMode, guestId, guestName 
     return () => unsubscribe();
   }, []);
 
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    alert(lang === 'ID' ? 'Berhasil disalin: ' + text : 'Successfully copied: ' + text);
-  };
+  // const handleCopy = (text: string) => {
+  //   navigator.clipboard.writeText(text);
+  //   alert(lang === 'ID' ? 'Berhasil disalin: ' + text : 'Successfully copied: ' + text);
+  // };
 
   // Countdown logic target date "Sabtu, 27 Juni 2026 08:00 WIB"
   const targetDate = new Date("2026-06-27T08:00:00+07:00").getTime();
