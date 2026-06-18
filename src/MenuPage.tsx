@@ -740,7 +740,7 @@ export default function MenuPage({ onBack, lang, isDarkMode, guestId, guestName 
                 <h3 className="font-bold text-gray-900 text-sm mb-1 mt-3">Ramizah Ariq Sakinah Irvansyah</h3>
                 <p className="text-[10px] text-gray-500 mb-1 font-medium">{t.brideChildOf}</p>
                 <p className="text-[10px] sm:text-[11px] text-gray-800 font-bold max-w-[85%] mx-auto leading-relaxed mb-4">
-                  Bapak Ars. Irvasyah, ST., MT dan Ibu Santi W
+                  Bapak Ar. Irvasyah, S.T., M.T dan Ibu Santi W
                 </p>
                 <a
                   href="https://www.instagram.com/zaramizah"
